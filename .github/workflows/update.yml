@@ -1,0 +1,30 @@
+name: Update Ukraine playlist
+
+on:
+  schedule:
+    # Запуск раз в сутки, в 03:00 UTC (06:00 по Киеву)
+    - cron: '0 3 * * *'
+  workflow_dispatch: # позволяет запустить вручную из вкладки Actions
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Download latest ua.m3u from iptv-org
+        run: |
+          mkdir -p streams
+          curl -sSL "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/ua.m3u" -o "streams/ua.m3u"
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add streams/ua.m3u
+          git diff --staged --quiet || git commit -m "Auto-update: ua.m3u from iptv-org/iptv"
+          git push
