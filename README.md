@@ -7,7 +7,7 @@
 Короткая ссылка (удобно вводить на ТВ пультом):
 
 ```
-https://tinyurl.com/iptv-uktaine
+https://tinyurl.com/ukraine-iptv
 ```
 
 Полная ссылка:
